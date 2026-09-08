@@ -151,9 +151,8 @@ password     trustfill-demo
 ```
 
 **Open the whole URL including `?pt_token=`.** The preview gateway authenticates
-with that token and returns 401 without it. The path goes *before* the query
-(`https://host/questionnaire?pt_token=…`), and the token expires about an hour
-after it is minted — re-run `demo:keep` for a fresh one.
+with that token and returns 401 without it. The token expires about an hour after
+it is minted — re-run `demo:keep` for a fresh one.
 
 The blanks are questions 5, 12, 20 and 27.
 

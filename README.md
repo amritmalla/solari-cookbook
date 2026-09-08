@@ -33,13 +33,11 @@ past. Copy one into your project and change the parts you care about.
 | --- | --- | --- |
 | [desktop-computer-use-py](examples/desktop-computer-use-py) | Python | Screenshot, click, and type on a Linux GUI |
 
-## Demos
+## Applications
 
-Larger than an example: a complete use case, built from several primitives.
-
-| Demo | Language | What it shows |
+| Application | Language | What it shows |
 | --- | --- | --- |
-| [trustfill](demos/trustfill) | TypeScript | Answers a customer's security questionnaire from your own documents — and leaves blank what the evidence doesn't support |
+| [trustfill](applications/trustfill) | TypeScript | Answers a customer's security questionnaire from your own documents — and leaves blank what the evidence doesn't support |
 
 ## Running an example
 
@@ -86,13 +84,12 @@ Things that cost you an afternoon if you meet them cold:
   channel; the VM keeps running until its idle timeout.
 - **`timeoutMs` is a rolling idle window**, not a hard deadline — it resets on
   every use.
-- **The preview URL carries a `?pt_token=`, so build request URLs with `new URL()`.**
-  Appending a path to the string — `` `${url}/health` `` — puts the path inside the
-  *query*, and the gateway answers 401 for a request that looks perfectly correct.
-  Set `pathname` instead. The same token is minted into a cookie on first visit, so
-  a client sending its own `Cookie` header must merge rather than replace it, or it
-  signs itself out of the preview while still holding a valid token. Tokens expire
-  about an hour after minting; call `previewUrl()` again for a fresh one.
+- **A preview URL mints its token into a cookie, so merge `Cookie` headers rather
+  than replacing them.** `previewUrl(port)` returns a URL carrying `?pt_token=`, and
+  the gateway sets that token as a cookie on first visit. A client that sends its
+  own `Cookie` header and overwrites it signs itself out of the *preview* while
+  still holding a valid token — a 401 on a request that worked moments earlier.
+  Tokens expire about an hour after minting; call `previewUrl()` again for a fresh one.
 
 ## Links
 

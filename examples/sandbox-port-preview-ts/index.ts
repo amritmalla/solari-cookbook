@@ -28,10 +28,9 @@ try {
   const { url } = await sandbox.previewUrl(PORT)
   console.log("preview:", url)
 
-  // The URL carries a ?pt_token=… the gateway authenticates with, so reach for a
-  // path with `new URL()` rather than string concatenation:
-  //   const page = new URL(url); page.pathname = "/about"; fetch(page)
-  // `${url}/about` puts "/about" inside the query string and returns 401.
+  // The gateway mints this URL's ?pt_token=… into a cookie on first visit, so a
+  // client that sends its own Cookie header has to merge rather than replace it —
+  // overwriting signs you out of the preview while still holding a valid token.
 
   // Prove it's really public: fetch it from *here*, outside the VM.
   for (let i = 0; i < 10; i++) {
