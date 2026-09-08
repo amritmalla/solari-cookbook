@@ -91,7 +91,10 @@ Every submission claims its project is impossible without the platform. Here's t
 
 - **The corpus is processed in a VM that dies with the run.** For a tool that automates *security* questionnaires, having a defensible answer for where your SOC 2 report gets processed is a product requirement, not a convenience.
 - **The portal is reproducible.** You get a working customer portal on a public URL in about six seconds, with no credentials of your own.
-- **Profiles skip re-authentication**, including the MFA that real procurement portals enforce.
+- **Profiles skip re-authentication.** The second pass here restores a saved session
+  and never touches the login form. This demo's portal is email and password, so it
+  does not exercise the MFA a real procurement portal would enforce — that is the
+  reason the primitive matters in production, not something shown here.
 
 **What it doesn't:**
 

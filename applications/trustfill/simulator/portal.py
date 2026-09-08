@@ -20,7 +20,17 @@ EMAIL = "vendor@meridian.example"
 PASSWORD = "trustfill-demo"
 COOKIE = "northwind_session=ok"
 
-with open(os.path.join(ROOT, "questionnaire.json"), encoding="utf-8") as fh:
+# In the sandbox the questionnaire is uploaded alongside this file; in the repo it
+# lives one level up. Resolving both beats keeping a second copy in sync by hand.
+_CANDIDATES = (
+    os.path.join(ROOT, "questionnaire.json"),
+    os.path.join(ROOT, os.pardir, "questions", "questionnaire.json"),
+)
+_QUESTIONNAIRE = next((p for p in _CANDIDATES if os.path.exists(p)), None)
+if _QUESTIONNAIRE is None:
+    raise SystemExit("questionnaire.json not found in %s" % (_CANDIDATES,))
+
+with open(_QUESTIONNAIRE, encoding="utf-8") as fh:
     QUESTIONS = json.load(fh)["questions"]
 
 DRAFT_PATH = os.path.join(ROOT, "draft.json")
@@ -81,7 +91,7 @@ def questionnaire_page(saved):
             f"""<div class="q">
   <div class="qid">{q['id']}</div>
   <div class="qt">{q['text']}</div>
-  <textarea name="{q['id']}" data-testid="answer-{q['id']}" placeholder="">{val}</textarea>
+  <textarea name="{q['id']}" data-testid="answer-{q['id']}">{val}</textarea>
 </div>"""
         )
     return page(
